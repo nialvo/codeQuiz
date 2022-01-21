@@ -1,0 +1,28 @@
+
+#timer{
+    position:fixed;
+    top:10px;
+    right:10px;
+    border: 2px solid orange;
+    border-radius: 5px;
+}
+
+#time{
+    text-align:center;
+}
+
+#action{
+    margin:auto;
+    width:60%;
+    display:block;
+
+}
+button{
+    border-radius:5px;
+    padding:5px;
+    
+}
+
+body{
+    font-family:Arial, sans-serif;
+}
