@@ -31,10 +31,11 @@ var a2 = document.createElement("button");
 var a3 = document.createElement("button");
 var a4 = document.createElement("button");
 q.setAttribute("style", "text-align:center");
-a1.setAttribute("style", "margin: auto; display:block; width:500px");
-a2.setAttribute("style", "margin: auto; display:block; width:500px");
-a3.setAttribute("style", "margin: auto; display:block; width:500px");
-a4.setAttribute("style", "margin: auto; display:block; width:500px");
+a1.setAttribute("style", "text-align:center; margin: auto; display:block; width:450px");
+a2.setAttribute("style", "text-align:center; margin: auto; display:block; width:450px");
+a3.setAttribute("style", "text-align:center; margin: auto; display:block; width:450px");
+a4.setAttribute("style", "text-align:center; margin: auto; display:block; width:450px");
+
 
 //create scoreboard title
 var scoreTitle = document.createElement("h2");
@@ -66,7 +67,7 @@ function start(){
     t=59;
     time.innerText=t;
     timer.setAttribute("style","visibility:visible");
-    timer.setAttribute("style","border:5px solid royalblue");
+    timer.setAttribute("style","border:10px solid royalblue");
     
     return;
 
@@ -182,7 +183,7 @@ function scores(){
         
         //a div for each line
         eval("var player"+j+"=document.createElement('div');")
-        eval("player"+j+".setAttribute('style', 'display:flex; justify-content:space-between; margin-left:350px; margin-right:350px');")
+        eval("player"+j+".setAttribute('style', 'display:flex; justify-content:space-between; width:300px; margin:auto');")
 
         //containing a div for initials and a div for score
         eval("var init"+j+"=document.createElement('div');")
@@ -240,15 +241,15 @@ function tick(){
         //change colors to indicate time urgency
 
     }else if(t<11){
-        timer.setAttribute("style","border:5px solid red");
+        timer.setAttribute("style","border:10px solid red");
     }else if(t<21){
-        timer.setAttribute("style","border:5px solid darkorange");
+        timer.setAttribute("style","border:10px solid darkorange");
     }else if(t<31){
-        timer.setAttribute("style","border:5px solid gold");
+        timer.setAttribute("style","border:10px solid gold");
     }else if(t<41){
-        timer.setAttribute("style","border:5px solid chartreuse");
+        timer.setAttribute("style","border:10px solid chartreuse");
     }else if(t<51){
-        timer.setAttribute("style","border:5px solid aqua");
+        timer.setAttribute("style","border:10px solid aqua");
     }
 
 }
