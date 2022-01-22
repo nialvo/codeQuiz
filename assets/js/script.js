@@ -1,13 +1,13 @@
 //Questions and answers, first answer in each sub-array is correct;
-var Q = ["What is JavaScript?","Who invented Javascript?","Does JS have a native function to shuffle a string?","Which line will give us a random integer between 0 and 9 inclusive"];
-var A =[["a programming language for dynamically rendering webpages","a recipe for perfect coffee","a programming language for scientific calculations", "a recent verion of Java"],["Brendan Eich","Linus Torvalds","Bjarne Stroustrup","William Gates"],["no","yes","in newer versions only","in older versions only"],["Math.floor(Math.random()*10)","Math.floor(Math.random()*9)","Math.random(0,9)","Math.random(0,10)"]];
+var Q = ["What is JavaScript?","Who invented Javascript?","Inside which HTML element do we put the JavaScript?", "Does JS have a native function to shuffle a string?","Which line will give us a random integer between 0 and 9 inclusive?"];
+var A =[["a programming language for dynamically rendering webpages","a recipe for perfect coffee","a programming language for scientific calculations", "a recent verion of Java"],["Brendan Eich","Linus Torvalds","Bjarne Stroustrup","William Gates"],["<script>","<src>","<javascript>","<link>"],["no","yes","in newer versions only","in older versions only"],["Math.floor(Math.random()*10)","Math.floor(Math.random()*9)","Math.random(0,9)","Math.random(0,10)"]];
 
 //scores and initials
 var scoreBoard = [[],[]];
 var m = 0;//high value in selection sort
 var h=0;//holder for switching elements in selection sort
 
-//get central div, this element does not change, everything except the timer happens here
+//get central "action" div, this element does not change, everything except the timer happens here
 var action = document.getElementById("action");
 action.setAttribute("style", "text-align:center");
 //create start button
@@ -18,7 +18,7 @@ startButton.addEventListener("click",quiz);
 var okayButton = document.createElement("button");
 okayButton.textContent = "OK";
 okayButton.addEventListener("click",restart);
-//get timer and time
+//get "timer" and "time" elements
 var timer = document.getElementById("timer");
 var time = document.getElementById("time");
 
@@ -31,10 +31,10 @@ var a2 = document.createElement("button");
 var a3 = document.createElement("button");
 var a4 = document.createElement("button");
 q.setAttribute("style", "text-align:center");
-a1.setAttribute("style", "margin: auto; display:block");
-a2.setAttribute("style", "margin: auto; display:block");
-a3.setAttribute("style", "margin: auto; display:block");
-a4.setAttribute("style", "margin: auto; display:block");
+a1.setAttribute("style", "margin: auto; display:block; width:500px");
+a2.setAttribute("style", "margin: auto; display:block; width:500px");
+a3.setAttribute("style", "margin: auto; display:block; width:500px");
+a4.setAttribute("style", "margin: auto; display:block; width:500px");
 
 //create scoreboard title
 var scoreTitle = document.createElement("h2");
@@ -66,6 +66,7 @@ function start(){
     t=59;
     time.innerText=t;
     timer.setAttribute("style","visibility:visible");
+    timer.setAttribute("style","border:5px solid royalblue");
     
     return;
 
@@ -74,7 +75,7 @@ function start(){
 
 function quiz(){
 
-    //remove start button and start with question 0
+    //remove start button, start timer, and go to question 0
     startButton.remove();
     timeLoop=setInterval(tick,1000);
     question(i);
@@ -141,7 +142,7 @@ function end(){
     timer.setAttribute("style","visibility:hidden");
     
     //get initials
-    ini = prompt("your score is "+s+". Enter your initials for scoreboard.", "AAA").substring(0,3).toUpperCase();
+    ini = prompt("Your score is "+s+"/"+Q.length+". Enter your initials for scoreboard.", "AAA").substring(0,3).toUpperCase();
     
     //add score and initials
     scoreBoard[0].push(ini);
@@ -172,6 +173,7 @@ function end(){
 
 function scores(){
 
+    //render title
     action.appendChild(scoreTitle);
 
     //dynamically create scoreboard lines
@@ -197,7 +199,7 @@ function scores(){
         
     }
 
-
+    //render end button
     action.appendChild(okayButton);
 
 
@@ -205,10 +207,10 @@ function scores(){
 
 function restart(){
 
+
+    //clean action div
     scoreTitle.remove();
     okayButton.remove();
-    
-
 
     for(let j=0; j<scoreBoard[1].length; j++){
     
@@ -216,22 +218,37 @@ function restart(){
 
     }
 
+    //restart
     start();
 
 
 }
 
 function tick(){
-
+    //decrement and display time
     t--;
     time.innerText=t;
+
+    
+
     if(t<1){
-        end();
-        t=59;
+        //interrupt timer, clean action div, go to initials entry prompt
         clearInterval(timeLoop);
         removeQA();
-        
+        end();
 
+        //change colors to indicate time urgency
+
+    }else if(t<11){
+        timer.setAttribute("style","border:5px solid red");
+    }else if(t<21){
+        timer.setAttribute("style","border:5px solid darkorange");
+    }else if(t<31){
+        timer.setAttribute("style","border:5px solid gold");
+    }else if(t<41){
+        timer.setAttribute("style","border:5px solid chartreuse");
+    }else if(t<51){
+        timer.setAttribute("style","border:5px solid aqua");
     }
 
 }
