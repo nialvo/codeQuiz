@@ -6,6 +6,8 @@ The border of the timer changes color every time we pass a ten second increment,
 At the end of the quiz, the player has the option to enter their initials for the scoreboard, which is then displayed.<br>
  <img src="./assets/images/Capture.PNG" alt="quiz image" >
  <br>
- For all inquiries, please email me via the link below.<br>
+ Please find the deployed program at the link below:<br>
+<a href="https://nialvo.github.io/codeQuiz/">Code Quiz</a>
+ For all inquiries, please email me via the link below:<br>
  <a href = "mailto: pilibili@protonmail.com">Send Email</a> 
 
