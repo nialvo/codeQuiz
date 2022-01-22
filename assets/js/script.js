@@ -79,7 +79,7 @@ function quiz(){
     //remove start button, start timer, and go to question 0
     startButton.remove();
     timeLoop=setInterval(tick,1000);
-    question(i);
+    question();
 
     return;
 
@@ -128,7 +128,7 @@ function answer(e){
     //increment question number, if questions are still left call question() again with current question number
     i++;
     if(i<Q.length){
-        question(i); 
+        question(); 
         return;
     }else {
         clearInterval(timeLoop);
