@@ -64,7 +64,7 @@ function start(){
     action.appendChild(startButton);
 
     //display timer
-    t=59;
+    t=60;
     time.innerText=t;
     timer.setAttribute("style","visibility:visible");
     timer.setAttribute("style","border:10px solid royalblue");
@@ -238,7 +238,7 @@ function tick(){
         removeQA();
         end();
 
-        //change colors to indicate time urgency
+        //change colors to indicate time urgency 
 
     }else if(t<11){
         timer.setAttribute("style","border:10px solid red");
