@@ -3,9 +3,16 @@ var Q = ["What is JavaScript?","Who invented Javascript?","Inside which HTML ele
 var A =[["a programming language for dynamically rendering webpages","a recipe for perfect coffee","a programming language for scientific calculations", "a recent verion of Java"],["Brendan Eich","Linus Torvalds","Bjarne Stroustrup","William Gates"],["<script>","<src>","<javascript>","<link>"],["no","yes","in newer versions only","in older versions only"],["Math.floor(Math.random()*10)","Math.floor(Math.random()*9)","Math.random(0,9)","Math.random(0,10)"]];
 
 //scores and initials
-var scoreBoard = [[],[]];
+
 var m = 0;//high value in selection sort
 var h=0;//holder for switching elements in selection sort
+//get stored scoreboard
+if (localStorage.length==0){
+    var scoreBoard = [[],[]];
+}else{
+    var scoreBoard = [JSON.parse(localStorage.initials),JSON.parse(localStorage.scores)]
+}
+var er =0; //flag to erase scoreboard in browser (after clearing display)
 
 //get central "action" div, this element does not change, everything except the timer happens here
 var action = document.getElementById("action");
@@ -18,6 +25,10 @@ startButton.addEventListener("click",quiz);
 var okayButton = document.createElement("button");
 okayButton.textContent = "OK";
 okayButton.addEventListener("click",restart);
+//create end and erase button
+var eraseButton = document.createElement("button");
+eraseButton.textContent = "ERASE SCOREBOARD";
+eraseButton.addEventListener("click",erase);
 //get "timer" and "time" elements
 var timer = document.getElementById("timer");
 var time = document.getElementById("time");
@@ -47,7 +58,7 @@ var i; //question number
 var s; //score
 var r; //random starting point for enumerating the possible answers
 var a; //selected answer
-var ini;//player initials
+var ini;//initials
 var timeLoop;//to interrupt timer setInterval()
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -143,33 +154,43 @@ function end(){
     timer.setAttribute("style","visibility:hidden");
     
     //get initials
-    ini = prompt("Your score is "+s+"/"+Q.length+". Enter your initials for scoreboard.", "AAA").substring(0,3).toUpperCase();
-    
-    //add score and initials
-    scoreBoard[0].push(ini);
-    scoreBoard[1].push(s);
+    var init = prompt("Your score is "+s+"/"+Q.length+". Enter your initials for scoreboard.", "AAA");
+    //if player clicks ok
+    if(init){
 
-    //sort highscores (yes this is not very efficient)
-    for(let j=0; j<scoreBoard[1].length; j++){
-        m = scoreBoard[1][j];
-        for(let k=j+1;k<scoreBoard[1].length;k++){
-            if (scoreBoard[1][k]>=m){
-                //switch scores 
-                h = scoreBoard[1][k];
-                scoreBoard[1][k]=scoreBoard[1][j];
-                scoreBoard[1][j]=h;
-                //switch corresponding initials
-                h = scoreBoard[0][k];
-                scoreBoard[0][k]=scoreBoard[0][j];
-                scoreBoard[0][j]=h;
+        ini=init.substring(0,3).toUpperCase();
+        //add score and initials
+        scoreBoard[0].push(ini);
+        scoreBoard[1].push(s);
 
+        //sort highscores (yes this is not very efficient)
+        for(let j=0; j<scoreBoard[1].length; j++){
+            m = scoreBoard[1][j];
+            for(let k=j+1;k<scoreBoard[1].length;k++){
+                if (scoreBoard[1][k]>=m){
+                    //switch scores 
+                    h = scoreBoard[1][k];
+                    scoreBoard[1][k]=scoreBoard[1][j];
+                    scoreBoard[1][j]=h;
+                    //switch corresponding initials
+                    h = scoreBoard[0][k];
+                    scoreBoard[0][k]=scoreBoard[0][j];
+                    scoreBoard[0][j]=h;
+
+                }
             }
         }
+
+        scores();
+        return;
+
+    }else{
+        //if player clicks cancel
+        start();
+        return;
     }
 
-    scores();
-
-    return;
+    
 }
 
 function scores(){
@@ -202,6 +223,14 @@ function scores(){
 
     //render end button
     action.appendChild(okayButton);
+    action.appendChild(eraseButton);
+
+    localStorage.initials = JSON.stringify(scoreBoard[0]);
+    localStorage.scores = JSON.stringify(scoreBoard[1]);
+
+
+
+    return;
 
 
 }
@@ -212,17 +241,36 @@ function restart(){
     //clean action div
     scoreTitle.remove();
     okayButton.remove();
+    eraseButton.remove();
 
     for(let j=0; j<scoreBoard[1].length; j++){
     
         action.children[0].remove();
 
     }
+    //if erase was clicked we erase the browser scores
+    if (er==1){
+        scoreBoard=[[],[]];
+        er=0;//lower flag
+    }
 
     //restart
     start();
+    return;
 
 
+
+}
+
+
+function erase(){
+
+    //erase scoreboard in browser and local storage
+    er=1;//raise flag to erase browser scoreboard
+    localStorage.clear();//erase stored scoreboard
+
+    restart();
+    return;
 }
 
 function tick(){
@@ -252,6 +300,9 @@ function tick(){
         timer.setAttribute("style","border:10px solid aqua");
     }
 
+    return;
+    
+
 }
 
 function removeQA(){
@@ -264,4 +315,5 @@ function removeQA(){
     a2.removeEventListener("click",answer);
     a3.removeEventListener("click",answer);
     a4.removeEventListener("click",answer);
+    return;
 }
